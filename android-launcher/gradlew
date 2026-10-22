@@ -1,0 +1,21 @@
+#!/bin/sh
+
+APP_HOME=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+WRAPPER_JAR="$APP_HOME/gradle/wrapper/gradle-wrapper.jar"
+
+if [ ! -f "$WRAPPER_JAR" ]; then
+  echo "Missing gradle/wrapper/gradle-wrapper.jar. Run this wrapper from the complete repository checkout." >&2
+  exit 1
+fi
+
+if [ -n "$JAVA_HOME" ]; then
+  JAVA="$JAVA_HOME/bin/java"
+else
+  JAVA=java
+fi
+
+exec "$JAVA" \
+  -Dorg.gradle.appname=gradlew \
+  -classpath "$WRAPPER_JAR" \
+  org.gradle.wrapper.GradleWrapperMain \
+  "$@"

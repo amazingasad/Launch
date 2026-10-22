@@ -1,0 +1,55 @@
+name: Build Android APK
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - "android-launcher/**"
+      - ".github/workflows/build-apk.yml"
+  pull_request:
+    paths:
+      - "android-launcher/**"
+      - ".github/workflows/build-apk.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Test and build debug APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: android-launcher
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK platform
+        run: sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
+      - name: Test and assemble APK
+        run: ./gradlew --no-daemon testDebugUnitTest assembleDebug
+
+      - name: Upload APK and unit-test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: metro-launcher-debug-apk
+          path: |
+            android-launcher/app/build/outputs/apk/debug/app-debug.apk
+            android-launcher/app/build/test-results/testDebugUnitTest/
+          if-no-files-found: error
+          retention-days: 14
