@@ -50,7 +50,7 @@ jobs:
       - name: Verify build tools
         run: |
           java -version
-          test -x ./gradlew
+          chmod +x gradlew
           sdkmanager --list_installed
 
       - name: Test and assemble APK
