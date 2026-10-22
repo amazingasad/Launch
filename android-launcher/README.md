@@ -20,8 +20,8 @@ Phone, SMS, calendar, camera, browser, and settings shortcuts ask Android to ope
 
 ## Build from GitHub Actions
 
-1. Push the repository to a GitHub repository.
-2. Open **Actions** and run **Build Android APK**, or push a commit to `main` / `master`.
+1. Push the repository to GitHub, keeping both the `android-launcher/` folder and `.github/workflows/build-apk.yml` at the repository root.
+2. Open **Actions** and run **Build Android APK**, or push a change to `android-launcher/` on any branch. Pull requests that change the launcher also run the build.
 3. Open the completed run and download the `metro-launcher-debug-apk` artifact.
 4. Transfer `app-debug.apk` to the phone and install it. Android may ask you to allow installation from that source.
 5. Select Metro Launcher when Android asks for a Home app, or choose it in the device's default Home-app settings.
