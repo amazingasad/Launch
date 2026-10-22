@@ -54,7 +54,7 @@ jobs:
           sdkmanager --list_installed
 
       - name: Test and assemble APK
-        run: ./gradlew --no-daemon testDebugUnitTest assembleDebug
+        run: ./gradlew --no-daemon testDebugUnitTest assembleDebug --stacktrace
 
       - name: Upload APK and unit-test results
         uses: actions/upload-artifact@v4
